@@ -43,8 +43,8 @@ import zipfile
 #     return _pip_main(argv + ["--cert", cert_path])
 # 
 # except:
-#   import subprocess
-# 
+import subprocess
+ 
 def pip_main(argv):
   with open("/tmp/theargv", 'w') as theargv):
     theargv.write(argv)

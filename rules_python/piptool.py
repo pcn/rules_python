@@ -46,7 +46,9 @@ import zipfile
 #   import subprocess
 # 
 def pip_main(argv):
-  print argv
+  with open("/tmp/theargv", 'w') as theargv):
+    theargv.write(argv)
+    theargv.flush()
   return subprocess.call(['pip'] + argv)
 
 # TODO(mattmoor): We can't easily depend on other libraries when

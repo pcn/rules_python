@@ -46,6 +46,7 @@ import zipfile
 #   import subprocess
 # 
 def pip_main(argv):
+  print argv
   return subprocess.call(['pip'] + argv)
 
 # TODO(mattmoor): We can't easily depend on other libraries when

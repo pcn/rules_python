@@ -28,28 +28,28 @@ import zipfile
 # version, which should be 9.0.1, e.g.
 #   You are using pip version 1.5.4, however version 9.0.1 is available.
 #   You should consider upgrading via the 'pip install --upgrade pip' command.
-# try:
-#   # Make sure we're using a suitable version of pip as a library.
-#   # Fallback on using it as a CLI.
-#   from pip._vendor import requests
-# 
-#   from pip import main as _pip_main
-#   def pip_main(argv):
-#     # Extract the certificates from the PAR following the example of get-pip.py
-#     # https://github.com/pypa/get-pip/blob/430ba37776ae2ad89/template.py#L164-L168
-#     cert_path = os.path.join(tempfile.mkdtemp(), "cacert.pem")
-#     with open(cert_path, "wb") as cert:
-#       cert.write(pkgutil.get_data("pip._vendor.requests", "cacert.pem"))
-#     return _pip_main(argv + ["--cert", cert_path])
-# 
-# except:
-import subprocess
- 
-def pip_main(argv):
-  with open("/tmp/theargv", 'w') as theargv):
-    theargv.write(argv)
-    theargv.flush()
-  return subprocess.call(['pip'] + argv)
+try:
+  # Make sure we're using a suitable version of pip as a library.
+  # Fallback on using it as a CLI.
+  raise Exception("test")
+  from pip._vendor import requests
+
+  from pip import main as _pip_main
+  def pip_main(argv):
+    # Extract the certificates from the PAR following the example of get-pip.py
+    # https://github.com/pypa/get-pip/blob/430ba37776ae2ad89/template.py#L164-L168
+    cert_path = os.path.join(tempfile.mkdtemp(), "cacert.pem")
+    with open(cert_path, "wb") as cert:
+      cert.write(pkgutil.get_data("pip._vendor.requests", "cacert.pem"))
+    return _pip_main(argv + ["--cert", cert_path])
+
+except:
+  import subprocess
+  
+  def pip_main(argv):
+    with open("/tmp/argv.out", "w") as argv_out:
+      argv_out.write(str(argv))
+    return subprocess.call(['pip'] + argv)
 
 # TODO(mattmoor): We can't easily depend on other libraries when
 # being invoked as a raw .py file.  Once bundled, we should be able

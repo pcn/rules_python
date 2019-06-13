@@ -15,7 +15,7 @@
 
 import argparse
 import collections
-import rfc822
+import email.parser
 import json
 import os
 import pkg_resources
@@ -115,13 +115,13 @@ class Wheel(object):
     def get_header_value(header):
       return header.strip().split(':', 2)[1].strip()
     metadata = {}
-    pkg_info = rfc822.Message(content)
+    pkg_info = email.parser.Parser().parse(content)
     metadata['name'] = pkg_info.get('Name')
     extras = [get_header_value(h) for h in pkg_info.getallmatchingheaders('Provides-Extra')]
     if extras:
       metadata['extras'] = list(set(extras))
 
-    reqs_dist = [get_header_value(h) for h in pkg_info.getallmatchingheaders('Requires-Dist')]
+      reqs_dist = pkg_info.get_all('Requires-Dist') or []
     requires = collections.defaultdict(set)
     for value in sorted(reqs_dist):
       extra_match = EXTRA_RE.search(value)

@@ -16,11 +16,11 @@
 def _pip_import_impl(repository_ctx, binary_name):
   """Core implementation of pip_import."""
 
-    # Add an empty top-level BUILD file.
-    # This is because Bazel requires BUILD files along all paths accessed
-    # via //this/sort/of:path and we wouldn't be able to load our generated
-    # requirements.bzl without it.
-    repository_ctx.file("BUILD", "")
+  # Add an empty top-level BUILD file.
+  # This is because Bazel requires BUILD files along all paths accessed
+  # via //this/sort/of:path and we wouldn't be able to load our generated
+  # requirements.bzl without it.
+  repository_ctx.file("BUILD", "")
 
   # To see the output, pass: quiet=False
   result = repository_ctx.execute([
@@ -31,8 +31,8 @@ def _pip_import_impl(repository_ctx, binary_name):
     "--directory", repository_ctx.path(""),
   ], quiet=False)
 
-    if result.return_code:
-        fail("pip_import failed: %s (%s)" % (result.stdout, result.stderr))
+  if result.return_code:
+      fail("pip_import failed: %s (%s)" % (result.stdout, result.stderr))
 
 def _pip_system_import_impl(repository_ctx):
   """System python implementation."""
